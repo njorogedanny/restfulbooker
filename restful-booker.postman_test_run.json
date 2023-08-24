@@ -1,0 +1,219 @@
+{
+	"id": "6ca7b652-c99d-4761-9570-bc0b6740c88a",
+	"name": "restful-booker",
+	"timestamp": "2023-08-24T17:59:34.713Z",
+	"collection_id": "19210726-e755e090-52a2-4cc7-8fe3-eeb6e37a3cce",
+	"folder_id": 0,
+	"environment_id": "19210726-4cb413ff-b023-4acb-a6a4-517316eb45aa",
+	"totalPass": 10,
+	"delay": 0,
+	"persist": true,
+	"status": "finished",
+	"startedAt": "2023-08-24T17:59:30.866Z",
+	"totalFail": 2,
+	"results": [
+		{
+			"id": "00573a03-720c-44ea-b2e4-5791713c2b57",
+			"name": "Get token",
+			"url": "https://restful-booker.herokuapp.com/auth",
+			"time": 1557,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"token response is not empty": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"token response is not empty": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				1557
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"token response is not empty": true
+				}
+			]
+		},
+		{
+			"id": "49ece766-1140-4259-b091-7b8175e24a2e",
+			"name": "create booking",
+			"url": "https://restful-booker.herokuapp.com/booking",
+			"time": 302,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"booking was created successfully": true,
+				"test deposit status is captured": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"booking was created successfully": {
+					"pass": 1,
+					"fail": 0
+				},
+				"test deposit status is captured": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				302
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"booking was created successfully": true,
+					"test deposit status is captured": true
+				}
+			]
+		},
+		{
+			"id": "c2049d17-d837-4a37-a699-f2e441a24bad",
+			"name": "Get booking",
+			"url": "https://restful-booker.herokuapp.com/booking/6445",
+			"time": 302,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Booking details fields are correct": true,
+				"Test data type of the response": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Booking details fields are correct": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Test data type of the response": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				302
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Booking details fields are correct": true,
+					"Test data type of the response": true
+				}
+			]
+		},
+		{
+			"id": "6155122d-0b95-4d67-937a-aa5bf9e50c9f",
+			"name": "Update Book",
+			"url": "https://restful-booker.herokuapp.com/booking/6445",
+			"time": 297,
+			"responseCode": {
+				"code": 403,
+				"name": "Forbidden"
+			},
+			"tests": {
+				"Status code is 200": false
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				297
+			],
+			"allTests": [
+				{
+					"Status code is 200": false
+				}
+			]
+		},
+		{
+			"id": "cc98c1f8-e2f9-4a1d-a78f-c43d2b74be4b",
+			"name": "Get Updated Booking",
+			"url": "https://restful-booker.herokuapp.com/booking/6445",
+			"time": 303,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Updated booking details fields are correct - Positive": true,
+				"Updated booking details fields are correct - Negative": false
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Updated booking details fields are correct - Positive": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Updated booking details fields are correct - Negative": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				303
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Updated booking details fields are correct - Positive": true,
+					"Updated booking details fields are correct - Negative": false
+				}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 2761,
+	"collection": {
+		"requests": [
+			{
+				"id": "00573a03-720c-44ea-b2e4-5791713c2b57",
+				"method": "POST"
+			},
+			{
+				"id": "49ece766-1140-4259-b091-7b8175e24a2e",
+				"method": "POST"
+			},
+			{
+				"id": "c2049d17-d837-4a37-a699-f2e441a24bad",
+				"method": "GET"
+			},
+			{
+				"id": "6155122d-0b95-4d67-937a-aa5bf9e50c9f",
+				"method": "PUT"
+			},
+			{
+				"id": "cc98c1f8-e2f9-4a1d-a78f-c43d2b74be4b",
+				"method": "GET"
+			}
+		]
+	}
+}
