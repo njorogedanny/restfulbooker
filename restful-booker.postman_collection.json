@@ -1,0 +1,324 @@
+{
+	"info": {
+		"_postman_id": "e755e090-52a2-4cc7-8fe3-eeb6e37a3cce",
+		"name": "restful-booker",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19210726"
+	},
+	"item": [
+		{
+			"name": "Get token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const tokenResponse = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"token response is not empty\", function () {\r",
+							"    pm.expect(tokenResponse.token).not.null\r",
+							"})\r",
+							"\r",
+							"pm.environment.set(\"token\", tokenResponse.token);\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": {{userName}},\r\n    \"password\": {{password}}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/auth",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"auth"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create booking",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const createResponse = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"booking was created successfully\", function(){\r",
+							"    pm.expect(createResponse.bookingid).not.null\r",
+							"    pm.expect(createResponse.booking).not.null\r",
+							"    pm.expect(createResponse.booking.bookingdates).not.null\r",
+							"    pm.environment.set(\"bookingId\", createResponse.bookingid);\r",
+							"    pm.environment.set(\"firstName\", createResponse.booking.firstname);\r",
+							"    pm.environment.set(\"lastName\", createResponse.booking.lastname);\r",
+							"    pm.environment.set(\"totalPrice\", createResponse.booking.totalprice);\r",
+							"    pm.environment.set(\"checkIn\", createResponse.booking.bookingdates.checkin);\r",
+							"    pm.environment.set(\"checkOut\", createResponse.booking.bookingdates.checkout);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"test deposit status is captured\", function(){\r",
+							"    pm.expect(createResponse.booking.depositpaid).to.be.oneOf([true,false]);\r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstname\" : \"Jim\",\r\n    \"lastname\" : \"Brown\",\r\n    \"totalprice\" : 111,\r\n    \"depositpaid\" : true,\r\n    \"bookingdates\" : {\r\n        \"checkin\" : \"2018-01-01\",\r\n        \"checkout\" : \"2019-01-01\"\r\n    },\r\n    \"additionalneeds\" : \"Breakfast\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/booking",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"booking"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get booking",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const fetchResponse = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Booking details fields are correct\", function(){\r",
+							"    pm.expect(fetchResponse.firstname).to.eql(pm.environment.get(\"firstName\"));\r",
+							"    pm.expect(fetchResponse.lastname).to.eql(pm.environment.get(\"lastName\"));\r",
+							"    pm.expect(fetchResponse.totalprice).to.eql(pm.environment.get(\"totalPrice\"));\r",
+							"    pm.expect(fetchResponse.bookingdates.checkin).to.eql(pm.environment.get(\"checkIn\"));\r",
+							"    pm.expect(fetchResponse.bookingdates.checkout).to.eql(pm.environment.get(\"checkOut\"));\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Test data type of the response\", function(){\r",
+							"    pm.expect(fetchResponse.firstname).to.be.a('string');\r",
+							"    pm.expect(fetchResponse.lastname).to.be.a('string');\r",
+							"    pm.expect(fetchResponse.depositpaid).to.be.a('boolean');\r",
+							"    pm.expect(fetchResponse.bookingdates.checkin).to.be.a('string');\r",
+							"    pm.expect(fetchResponse.bookingdates.checkout).to.be.a('string');\r",
+							"    pm.expect(fetchResponse.totalprice).to.be.a('number');\r",
+							"    pm.expect(fetchResponse.additionalneeds).to.be.a('string');\r",
+							"\r",
+							"\r",
+							"\r",
+							"})\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/booking/{{bookingId}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"booking",
+						"{{bookingId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Book",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.environment.set(\"updated_amount\",pm.environment.get(\"totalPrice\")+ 1);\r",
+							"let myVar = pm.environment.get(\"totalPrice\");\r",
+							"myVar ++ // increment by 1\r",
+							"pm.environment.set(\"updated_amount\", myVar);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Cookie",
+						"value": "token=abc123",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstname\" : \"James\",\r\n    \"lastname\" : \"Brown\",\r\n    \"totalprice\" : 111,\r\n    \"depositpaid\" : true,\r\n    \"bookingdates\" : {\r\n        \"checkin\" : \"2018-01-01\",\r\n        \"checkout\" : \"2019-01-01\"\r\n    },\r\n    \"additionalneeds\" : \"Breakfast\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/booking/{{bookingId}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"booking",
+						"{{bookingId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Updated Booking",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const fetchUpdatedResponse = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Updated booking details fields are correct - Positive\", function(){\r",
+							"    pm.expect(fetchUpdatedResponse.firstname).to.eql(pm.environment.get(\"firstName\"));\r",
+							"    pm.expect(fetchUpdatedResponse.lastname).to.eql(pm.environment.get(\"lastName\"));\r",
+							"    pm.expect(fetchUpdatedResponse.totalprice).to.eql(pm.environment.get(\"totalPrice\"));\r",
+							"    pm.expect(fetchUpdatedResponse.bookingdates.checkin).to.eql(pm.environment.get(\"checkIn\"));\r",
+							"    pm.expect(fetchUpdatedResponse.bookingdates.checkout).to.eql(pm.environment.get(\"checkOut\"));\r",
+							"    \r",
+							"})\r",
+							"\r",
+							"pm.test(\"Updated booking details fields are correct - Negative\", function(){\r",
+							"    pm.expect(fetchUpdatedResponse.totalprice).to.eql(pm.environment.get(\"updated_amount\"));\r",
+							"    pm.expect(fetchUpdatedResponse.updated_amount).to.eql(pm.environment.get(\"totalprice\"));\r",
+							"})\r",
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/booking/{{bookingId}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"booking",
+						"{{bookingId}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "updated_amount",
+			"value": ""
+		}
+	]
+}
